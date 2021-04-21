@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
-
-    Vector3 worldPosition;
+    [SerializeField] float moveSpeed = 5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,14 +25,14 @@ public class Player_Movement : MonoBehaviour
 
             if(screenPos.x < mousePos.x)
             {
-                transform.position += new Vector3(0,0,1) * Time.deltaTime ;
+                transform.Translate(Vector3.right * Time.deltaTime*moveSpeed, Space.Self) ;
 
 
             }
 
             else
             {
-                transform.position -= new Vector3(0, 0, 1) * Time.deltaTime;
+                transform.Translate(Vector3.left * Time.deltaTime * moveSpeed, Space.Self);
 
             }
 
