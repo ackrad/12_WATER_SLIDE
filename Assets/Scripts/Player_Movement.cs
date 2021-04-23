@@ -6,6 +6,8 @@ using Dreamteck.Splines;
 public class Player_Movement : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float mouseGap = 20f;
+    [SerializeField] Transform parentGameObject;
     //[SerializeField] SplineComputer spComputer;
     // Start is called before the first frame update
     void Start()
@@ -18,27 +20,36 @@ public class Player_Movement : MonoBehaviour
     {
 
 
-        
             Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
             Vector3 mousePos = Input.mousePosition;
-     
 
-            if(screenPos.x+20 < mousePos.x)
+        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -0.28f);
+
+            if(screenPos.x+ mouseGap < mousePos.x)
             {
-            Debug.Log("xd");
                 transform.Translate(Vector3.right * Time.deltaTime * moveSpeed, Space.Self) ;
 
 
             }
 
-        else if (screenPos.x - 20 > mousePos.x)
+        else if (screenPos.x - mouseGap > mousePos.x)
         {
                 transform.Translate(Vector3.left * Time.deltaTime * moveSpeed, Space.Self);
+
+            
 
             }
 
      
     
+
+
+    }
+
+
+    public void StopFollow()
+    {
+        parentGameObject.GetComponent<SplineFollower>().follow = false;
 
 
     }
