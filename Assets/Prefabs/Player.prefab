@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 61410659105758787}
   - component: {fileID: 61410659105758788}
+  - component: {fileID: 951658032}
+  - component: {fileID: 951658033}
+  - component: {fileID: 951658034}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -24,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 61410659105758786}
-  m_LocalRotation: {x: -0.09658519, y: 0.879838, z: -0.20291908, w: -0.41878426}
+  m_LocalRotation: {x: 0.09658405, y: -0.87983835, z: 0.20291637, w: 0.4187851}
   m_LocalPosition: {x: 74.47943, y: 22.408684, z: 80.21341}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 61410659252720699}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 25.974, y: -129.093, z: 0}
 --- !u!114 &61410659105758788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,28 +289,66 @@ MonoBehaviour:
   targetRigidbody2D: {fileID: 0}
   targetTransform: {fileID: 61410659105758787}
   _result:
-    position: {x: 74.47943, y: 22.408684, z: 80.21341}
+    position: {x: 55.055275, y: 10.034364, z: 63.808346}
     up: {x: 0, y: 1, z: 0}
-    forward: {x: -0.6977267, y: -0.43796855, z: -0.5668872}
+    forward: {x: -0.71200335, y: -0.43823323, z: -0.54863733}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 1
-    percent: 0
+    percent: 0.1834948107048317
   _finalResult:
-    position: {x: 74.47943, y: 22.408684, z: 80.21341}
+    position: {x: 55.055275, y: 10.034364, z: 63.808346}
     up: {x: 0, y: 1, z: 0}
-    forward: {x: -0.6977267, y: -0.43796855, z: -0.5668872}
+    forward: {x: -0.71200335, y: -0.43823323, z: -0.54863733}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 1
-    percent: 0
+    percent: 0.1834948107048317
   wrapMode: 0
   followMode: 0
-  autoStartPosition: 0
+  autoStartPosition: 1
   follow: 1
   preserveUniformSpeedWithOffset: 0
-  _followSpeed: 1
+  _followSpeed: 10
   _followDuration: 1
   _startPosition: 0
   editorSetPosition: 1
+--- !u!65 &951658032
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61410659105758786}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7274115, y: 1.5896358, z: 1}
+  m_Center: {x: -2.178321, y: 0.29482245, z: -0.000009295473}
+--- !u!65 &951658033
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61410659105758786}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.491173, y: 1.9042046, z: 1}
+  m_Center: {x: 2.4907002, y: 0.7215722, z: 0.0000127920275}
+--- !u!114 &951658034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 61410659105758786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf91964bdd8a40847aecfe708bcc0675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &61410659252720698
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +365,7 @@ GameObject:
   - component: {fileID: 61410659252720688}
   m_Layer: 0
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: PlayerUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -337,7 +378,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 61410659252720698}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2.74}
+  m_LocalPosition: {x: 0, y: -0, z: -0.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 61410659436489964}
@@ -421,7 +462,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 120
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &61410659252720688
 MonoBehaviour:
@@ -437,6 +478,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   mouseGap: 20
+  parentGameObject: {fileID: 61410659105758787}
+  isInSpline: 1
 --- !u!1 &61410659436489961
 GameObject:
   m_ObjectHideFlags: 0

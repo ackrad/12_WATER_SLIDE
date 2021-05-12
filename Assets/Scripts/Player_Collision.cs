@@ -10,10 +10,12 @@ public class Player_Collision : MonoBehaviour
 
         if (collision.gameObject.tag == "PlayerUnit")
         {
-            GetComponentInChildren<Rigidbody>().AddRelativeForce(new Vector3(0f, 500f, 0f));
-            collision.gameObject.GetComponent<Player_Movement>().StopFollow();
-
+             GetComponentInChildren<Rigidbody>().AddRelativeForce(new Vector3(0f, 500f, 0f));
+             collision.gameObject.GetComponent<Player_Movement>().StopFollow();
+          
 
         }
     }
+
+
 }

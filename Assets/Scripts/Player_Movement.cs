@@ -21,20 +21,24 @@ public class Player_Movement : MonoBehaviour
     // Update is called once per frame
     void Update() // TODO character positiona ihtiyacýn yok zaten karakter hep ekranýn ortasýnda.
     {
-        MoveMethod();
 
+        if (isInSpline)
+        {
+            MoveMethod();
+        }
+
+    
     }
 
     private void MoveMethod()
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
         Vector3 mousePos = Input.mousePosition;
-        if (isInSpline)
-        {
+      
 
 
             transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -0.28f);
-        }
+        
             if (screenPos.x + mouseGap < mousePos.x)
             {
                 transform.Translate(Vector3.right * Time.deltaTime * moveSpeed, Space.Self);
@@ -71,6 +75,11 @@ public class Player_Movement : MonoBehaviour
 
     public void StartFollow()
     {
+
+    
+        parentGameObject.position = transform.position;
+        transform.localPosition = new Vector3(0f, 0f, 0f);
+
         parentGameObject.GetComponent<SplineFollower>().follow = true;
 
         changeisInSplineBool(true);
