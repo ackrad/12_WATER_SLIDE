@@ -5,7 +5,7 @@ using Dreamteck.Splines;
 public class SlideCollisionSystem : MonoBehaviour
 {
 
-    [SerializeField] Player_ControllerV2 playerV2;
+    [SerializeField] Player_Movement playerV2;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +24,7 @@ public class SlideCollisionSystem : MonoBehaviour
         if(collision.gameObject.tag == "PlayerUnit" )
         {
 
-            if(!playerV2.isInSpline)
+            if(!collision.collider.gameObject.GetComponent<Player_Movement>().isInSpline)
             {
                 playerV2.StartFollow();
 

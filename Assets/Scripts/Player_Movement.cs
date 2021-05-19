@@ -8,14 +8,16 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float mouseGap = 20f;
     [SerializeField] Transform parentGameObject;
+    [SerializeField] SplineComputer spComp;
 
     public bool isInSpline = true;
+    SplineFollower sp;
 
     //[SerializeField] SplineComputer spComputer;
     // Start is called before the first frame update
     void Start()
     {
-        
+        sp = parentGameObject.GetComponent<SplineFollower>();
     }
 
     // Update is called once per frame
@@ -80,7 +82,8 @@ public class Player_Movement : MonoBehaviour
         parentGameObject.position = transform.position;
         transform.localPosition = new Vector3(0f, 0f, 0f);
 
-        parentGameObject.GetComponent<SplineFollower>().follow = true;
+        sp.Restart(spComp.Project(transform.position).percent);
+        sp.follow = true;
 
         changeisInSplineBool(true);
     }
