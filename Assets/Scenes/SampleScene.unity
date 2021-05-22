@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!43 &1278117
+--- !u!43 &237113939
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -489,7 +489,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!4 &1238506787 stripped
 Transform:
@@ -599,7 +599,7 @@ GameObject:
   - component: {fileID: 1811801106}
   m_Layer: 0
   m_Name: Spline
-  m_TagString: Untagged
+  m_TagString: Spline
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1096,7 +1096,7 @@ MonoBehaviour:
   meshCollider: {fileID: 1811801106}
   filter: {fileID: 1811801103}
   meshRenderer: {fileID: 1811801102}
-  mesh: {fileID: 1278117}
+  mesh: {fileID: 237113939}
   colliderUpdateRate: 0.2
   _sides: 12
   _roundCapLatitude: 6
@@ -1151,7 +1151,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1811801100}
-  m_Mesh: {fileID: 1278117}
+  m_Mesh: {fileID: 237113939}
 --- !u!114 &1811801104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2448,7 +2448,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1278117}
+  m_Mesh: {fileID: 237113939}
 --- !u!1 &2007977483
 GameObject:
   m_ObjectHideFlags: 0
@@ -2525,13 +2525,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2007977483}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8900008, z: -9.049995}
+  m_LocalRotation: {x: 0.112769626, y: 0, z: 0, w: 0.9936212}
+  m_LocalPosition: {x: 0, y: 6, z: -11.35}
   m_LocalScale: {x: 0, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1238506787}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 12.95, y: 0, z: 0}
 --- !u!850595691 &2049348055
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -2743,19 +2743,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3241075957004755795, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7742311
+      value: -0.7848534
       objectReference: {fileID: 0}
     - target: {fileID: 3241075957004755795, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.12869021
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3241075957004755795, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.6112945
+      value: 0.6196815
       objectReference: {fileID: 0}
     - target: {fileID: 3241075957004755795, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.10160743
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3241075957004755795, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2777,10 +2777,22 @@ PrefabInstance:
       propertyPath: _spline
       value: 
       objectReference: {fileID: 1811801104}
+    - target: {fileID: 3241075957004755796, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
+      propertyPath: _motion.applyRotationX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3241075957004755796, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
+      propertyPath: _motion.applyRotationZ
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3241075957004755797, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
       propertyPath: sp
       value: 
       objectReference: {fileID: 1811801104}
+    - target: {fileID: 3241075957004755797, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
+      propertyPath: upForce
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3241075957004755797, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
       propertyPath: moveSpeed
       value: 20

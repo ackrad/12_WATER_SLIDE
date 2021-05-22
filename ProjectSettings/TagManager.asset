@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerUnit
   - PlayerOverview
+  - Spline
   layers:
   - Default
   - TransparentFX

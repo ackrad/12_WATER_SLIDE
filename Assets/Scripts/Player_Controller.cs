@@ -10,12 +10,15 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] float mouseGap = 20f;
     [SerializeField] float sideMoveSpeed = 5f;
     [SerializeField] float rotationSpeed = 2f;
+    [SerializeField] float upForce = 50f;
+    [SerializeField] float secondsToWait = 1f;
 
     [SerializeField] SplineComputer sp;
     [Header("TODO Bunu dynamic yap")]
     [SerializeField] float maxOfset = 3f;
 
     SplineFollower spFollower;
+    Rigidbody rb;
 
     bool isMouseActive = false;
     bool isFollowing = true;
@@ -27,7 +30,7 @@ public class Player_Controller : MonoBehaviour
     void Start()
     {
         spFollower = GetComponent<SplineFollower>();
-
+        rb = GetComponent<Rigidbody>();
 
     }
 
@@ -43,6 +46,12 @@ public class Player_Controller : MonoBehaviour
             }
         }
 
+        if (isFollowing)
+        {
+
+            CheckIfOutOfOffset();
+        }
+           
 
         if (!isFollowing)
         {
@@ -50,7 +59,7 @@ public class Player_Controller : MonoBehaviour
             MoveMethod2();
         }
 
-        CheckIfOutOfOffset();
+       
     }
 
     private void MoveMethod2()
@@ -92,8 +101,15 @@ public class Player_Controller : MonoBehaviour
 
     private void StopFollowingSpline()
     {
+        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+        
+        spFollower.follow = false;
+        rb.isKinematic = false;
+        rb.AddForce(transform.up * upForce);
+
+        // Make rigidbody unkinematic so you can apply upwards foce
         isFollowing = false;
-        spFollower.enabled = false;
+        spFollower.motion.offset = new Vector2(0, 0);
 
     }
 
@@ -151,4 +167,23 @@ public class Player_Controller : MonoBehaviour
 
     }
 
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Spline"))
+        {
+
+            StartFollowing();
+
+        }
+    }
+
+    private void StartFollowing()
+    {
+        rb.isKinematic = true;
+        spFollower.Restart(sp.Project(transform.position).percent); //restarts following from projected point
+        spFollower.follow = true;
+        isFollowing = true;
+        spFollower.motion.offset = new Vector2(0, 0);
+    }
 }
