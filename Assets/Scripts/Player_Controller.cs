@@ -22,6 +22,7 @@ public class Player_Controller : MonoBehaviour
 
     bool isMouseActive = false;
     bool isFollowing = true;
+    bool canCollide = false;
     
 
 
@@ -37,6 +38,7 @@ public class Player_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         ActivateDeactivateMouse();
         if (isMouseActive )
         {
@@ -94,12 +96,12 @@ public class Player_Controller : MonoBehaviour
         if(currentOffset > maxOfset || currentOffset < -maxOfset)
         {
 
-            StopFollowingSpline();
+            StartCoroutine(StopFollowingSpline());
 
         }
     }
 
-    private void StopFollowingSpline()
+    private IEnumerator StopFollowingSpline()
     {
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
         
@@ -111,6 +113,9 @@ public class Player_Controller : MonoBehaviour
         isFollowing = false;
         spFollower.motion.offset = new Vector2(0, 0);
 
+        yield return new WaitForSeconds(secondsToWait);
+
+        canCollide = true;
     }
 
     private void ActivateDeactivateMouse()
@@ -130,21 +135,31 @@ public class Player_Controller : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
 
 
-
+        float offsetX = spFollower.motion.offset.x;
+        float newOffsetX;
 
         if (screenPos.x + mouseGap < mousePos.x)
         {
-            spFollower.motion.offset = new Vector2(spFollower.motion.offset.x + sideMoveSpeed*Time.deltaTime,0);
+            newOffsetX = offsetX + sideMoveSpeed*Time.deltaTime;
+            float newOffsetY = maxOfset * Mathf.Cos(newOffsetX / maxOfset);
+
+            spFollower.motion.offset = new Vector2(newOffsetX, -newOffsetY);
 
         }
 
         else if (screenPos.x - mouseGap > mousePos.x)
         {
 
-            spFollower.motion.offset = new Vector2(spFollower.motion.offset.x - sideMoveSpeed * Time.deltaTime, 0);
+            newOffsetX = offsetX - sideMoveSpeed* Time.deltaTime;
+            float newOffsetY = maxOfset * Mathf.Cos(newOffsetX / maxOfset);
+
+            spFollower.motion.offset = new Vector2(newOffsetX, -newOffsetY);
 
 
         }
+
+
+
 
     }
 
@@ -170,11 +185,11 @@ public class Player_Controller : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Spline"))
+        if (collision.collider.CompareTag("Spline") && canCollide)
         {
 
             StartFollowing();
-
+            canCollide = false;
         }
     }
 

@@ -2735,7 +2735,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3241075957004755795, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 92.7391
+      value: 92.9491
       objectReference: {fileID: 0}
     - target: {fileID: 3241075957004755795, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2777,6 +2777,18 @@ PrefabInstance:
       propertyPath: _spline
       value: 
       objectReference: {fileID: 1811801104}
+    - target: {fileID: 3241075957004755796, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
+      propertyPath: _motion._offset.y
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 3241075957004755796, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
+      propertyPath: autoStartPosition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3241075957004755796, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
+      propertyPath: _motion._hasOffset
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3241075957004755796, guid: aaaa63b4c9b3fdc43b8a687797fb3f7f, type: 3}
       propertyPath: _motion.applyRotationX
       value: 0
