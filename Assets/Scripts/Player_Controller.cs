@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Dreamteck.Splines;
-using System;
+
+
 
 public class Player_Controller : MonoBehaviour
 {
@@ -11,18 +12,26 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] float sideMoveSpeed = 5f;
     [SerializeField] float rotationSpeed = 2f;
     [SerializeField] float upForce = 50f;
-    [SerializeField] float secondsToWait = 1f;
+    [SerializeField] float secondsToWait = 0.5f;
 
     [SerializeField] SplineComputer sp;
     [Header("TODO Bunu dynamic yap")]
     [SerializeField] float maxOfset = 3f;
 
+    [SerializeField] string splineTag = "Spline";
+
+
+    // cached
     SplineFollower spFollower;
     Rigidbody rb;
+    CapsuleCollider capsuleCollider;
 
+
+    //booleans
     bool isMouseActive = false;
     bool isFollowing = true;
-    bool canCollide = false;
+
+    
     
 
 
@@ -32,6 +41,7 @@ public class Player_Controller : MonoBehaviour
     {
         spFollower = GetComponent<SplineFollower>();
         rb = GetComponent<Rigidbody>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
 
     }
 
@@ -39,32 +49,36 @@ public class Player_Controller : MonoBehaviour
     void Update()
     {
 
-        ActivateDeactivateMouse();
-        if (isMouseActive )
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            if (isFollowing)
-            {
-                MoveMethod();
-            }
+
+        }
+
+        ActivateDeactivateMouse();
+        if (isMouseActive && isFollowing)
+        {
+            
+                SlidingMethod();
         }
 
         if (isFollowing)
         {
 
             CheckIfOutOfOffset();
-        }
-           
 
-        if (!isFollowing)
+        }
+
+
+        else
         {
 
-            MoveMethod2();
+            FlyingMethod();
         }
 
        
     }
 
-    private void MoveMethod2()
+    private void FlyingMethod()
     {
 
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
@@ -109,13 +123,15 @@ public class Player_Controller : MonoBehaviour
         rb.isKinematic = false;
         rb.AddForce(transform.up * upForce);
 
+
         // Make rigidbody unkinematic so you can apply upwards foce
         isFollowing = false;
         spFollower.motion.offset = new Vector2(0, 0);
+        capsuleCollider.enabled = false;
 
         yield return new WaitForSeconds(secondsToWait);
 
-        canCollide = true;
+        capsuleCollider.enabled = true;
     }
 
     private void ActivateDeactivateMouse()
@@ -129,7 +145,7 @@ public class Player_Controller : MonoBehaviour
         
     }
 
-    private void MoveMethod()
+    private void SlidingMethod()
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
         Vector3 mousePos = Input.mousePosition;
@@ -185,11 +201,10 @@ public class Player_Controller : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Spline") && canCollide)
+        if (collision.collider.CompareTag(splineTag) )
         {
 
             StartFollowing();
-            canCollide = false;
         }
     }
 
@@ -199,6 +214,31 @@ public class Player_Controller : MonoBehaviour
         spFollower.Restart(sp.Project(transform.position).percent); //restarts following from projected point
         spFollower.follow = true;
         isFollowing = true;
-        spFollower.motion.offset = new Vector2(0, 0);
+        spFollower.motion.offset = new Vector2(0, -maxOfset);
     }
+
+
+
+    public void WinGame()
+    {
+
+        Debug.Log("You win");
+
+    }
+
+    public float ReturnCurrentOffset()
+    {
+
+        float currentoffsetX = spFollower.motion.offset.x;
+        return currentoffsetX;
+
+
+    }
+
+
+
+
+
+
+
 }
