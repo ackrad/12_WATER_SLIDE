@@ -19,7 +19,7 @@ public class Player_Controller : MonoBehaviour
     [Header("TODO Bunu dynamic yap")]
     [SerializeField] float maxOfset = 3f;
     [SerializeField] string splineTag = "Spline";
-
+    [SerializeField] Transform winPosition;
 
     // cached
     SplineFollower spFollower;
@@ -236,22 +236,26 @@ public class Player_Controller : MonoBehaviour
 
         path[0]=transform.position - (transform.position - poolPosition.position )/2 + new Vector3(0,upMoveAmount,0);
         path[1] = poolPosition.position;
-        path[2] = poolPosition.position + new Vector3(0, depthOfPool, 0); //TODO magic number kullanma
+        path[2] = poolPosition.position + new Vector3(0, depthOfPool, 0);
 
         transform.DOPath(path, animMoveDuration, pathType, pathMode,10,Color.red).OnComplete(() => { ChangeToWinCamera(); }); ;
          
 
     }
 
-    private void ChangeToWinCamera()
-    {
-        cinemachineSwitcher.SwitchToWinCamera();
-    }
+ 
 
     private void ChangeToDiveCamera()
     {
         cinemachineSwitcher.SwitchToDiveCamera();
 
 
+    }
+
+    private void ChangeToWinCamera()
+    {
+        transform.position = winPosition.position;
+
+        cinemachineSwitcher.SwitchToWinCamera();
     }
 }
