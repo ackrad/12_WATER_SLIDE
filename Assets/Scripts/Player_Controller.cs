@@ -11,7 +11,7 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] float mouseGap = 20f;
     [SerializeField] float sideMoveSpeed = 5f;
     [SerializeField] float rotationSpeed = 2f;
-    [SerializeField] float upForce = 50f;
+    [SerializeField] float upForce = 10f;
     [SerializeField] float secondsToWait = 0.5f;
 
     [SerializeField] SplineComputer sp;
@@ -84,8 +84,8 @@ public class Player_Controller : MonoBehaviour
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
         Vector3 mousePos = Input.mousePosition;
 
+        rb.velocity = new Vector3(0,rb.velocity.y,0) + transform.forward * moveSpeed; // y velocityi koruyup ileri doðru hýz vermek için
 
-        transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime, Space.Self);
 
         if (screenPos.x + mouseGap < mousePos.x)
         {
@@ -121,7 +121,8 @@ public class Player_Controller : MonoBehaviour
         
         spFollower.follow = false;
         rb.isKinematic = false;
-        rb.AddForce(transform.up * upForce);
+        rb.AddForce(transform.up * upForce, ForceMode.VelocityChange);
+
 
 
         // Make rigidbody unkinematic so you can apply upwards foce
