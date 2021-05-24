@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Dreamteck.Splines;
-
-
+using DG.Tweening;
+using System;
 
 public class Player_Controller : MonoBehaviour
 {
@@ -13,11 +13,11 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] float rotationSpeed = 2f;
     [SerializeField] float upForce = 10f;
     [SerializeField] float secondsToWait = 0.5f;
+    [SerializeField] CinemachineSwitcher cinemachineSwitcher;
 
     [SerializeField] SplineComputer sp;
     [Header("TODO Bunu dynamic yap")]
     [SerializeField] float maxOfset = 3f;
-
     [SerializeField] string splineTag = "Spline";
 
 
@@ -25,16 +25,20 @@ public class Player_Controller : MonoBehaviour
     SplineFollower spFollower;
     Rigidbody rb;
     CapsuleCollider capsuleCollider;
-
-
+    
     //booleans
     bool isMouseActive = false;
     bool isFollowing = true;
-
-    
-    
+    public bool isPlayerActive = true;
 
 
+    [Header("Ending Animation Metrics")]
+    [SerializeField] private Ease moveEase = Ease.Linear;
+    [SerializeField] float animMoveDuration=2f ;
+    [SerializeField] Transform poolPosition;
+    [SerializeField] float upMoveAmount = 7f;
+    [SerializeField] PathType pathType;
+    [SerializeField] PathMode pathMode;
 
     // Start is called before the first frame update
     void Start()
@@ -49,33 +53,31 @@ public class Player_Controller : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
 
-        }
 
-        ActivateDeactivateMouse();
-        if (isMouseActive && isFollowing)
+        if (isFollowing  && isPlayerActive)
         {
             
                 SlidingMethod();
-        }
-
-        if (isFollowing)
-        {
-
             CheckIfOutOfOffset();
+          
 
         }
 
+        if (sp.Project(transform.position).percent > 0.99 && isPlayerActive && isFollowing)
+        {
+            WinGame();
+        }
 
         else
         {
-
-            FlyingMethod();
+            if (isPlayerActive)
+            {
+                FlyingMethod();
+            }
         }
 
-       
+
     }
 
     private void FlyingMethod()
@@ -222,24 +224,34 @@ public class Player_Controller : MonoBehaviour
 
     public void WinGame()
     {
+        ChangeToDiveCamera();
+        float depthOfPool = 4f;
 
-        Debug.Log("You win");
+
+        spFollower.follow = false;
+        isPlayerActive = false;
+        Vector3[] path = new Vector3[3];
+
+        
+
+        path[0]=transform.position - (transform.position - poolPosition.position )/2 + new Vector3(0,upMoveAmount,0);
+        path[1] = poolPosition.position;
+        path[2] = poolPosition.position + new Vector3(0, depthOfPool, 0); //TODO magic number kullanma
+
+        transform.DOPath(path, animMoveDuration, pathType, pathMode,10,Color.red).OnComplete(() => { ChangeToWinCamera(); }); ;
+         
 
     }
 
-    public float ReturnCurrentOffset()
+    private void ChangeToWinCamera()
     {
+        cinemachineSwitcher.SwitchToWinCamera();
+    }
 
-        float currentoffsetX = spFollower.motion.offset.x;
-        return currentoffsetX;
+    private void ChangeToDiveCamera()
+    {
+        cinemachineSwitcher.SwitchToDiveCamera();
 
 
     }
-
-
-
-
-
-
-
 }
