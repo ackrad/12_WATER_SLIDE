@@ -569,19 +569,19 @@ MonoBehaviour:
   targetRigidbody2D: {fileID: 0}
   targetTransform: {fileID: 3241075957004755795}
   _result:
-    position: {x: 235.65712, y: 91.91132, z: 224.50063}
+    position: {x: 223.38004, y: 88.0457, z: 229.87021}
     up: {x: 0, y: 1, z: 0}
-    forward: {x: -0.9096695, y: -0.30846065, z: 0.2781249}
+    forward: {x: -0.8572531, y: -0.2567851, z: 0.4462943}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 1
-    percent: 0.006495957336728534
+    percent: 0.0386727319823371
   _finalResult:
-    position: {x: 235.65712, y: 91.91132, z: 224.50063}
+    position: {x: 223.38004, y: 88.0457, z: 229.87021}
     up: {x: 0, y: 1, z: 0}
-    forward: {x: -0.9096695, y: -0.30846065, z: 0.2781249}
+    forward: {x: -0.8572531, y: -0.2567851, z: 0.4462943}
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 1
-    percent: 0.006495957336728534
+    percent: 0.0386727319823371
   wrapMode: 0
   followMode: 0
   autoStartPosition: 1
@@ -604,21 +604,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
-  mouseGap: 20
   sideMoveSpeed: 5
   rotationSpeed: 75
   upForce: 10
   secondsToWait: 0.5
+  cinemachineSwitcher: {fileID: 0}
   sp: {fileID: 0}
   maxOfset: 3
   splineTag: Spline
+  winPosition: {fileID: 0}
+  leanFinger: {fileID: 0}
   isPlayerActive: 1
-  moveEase: 32
   animMoveDuration: 4
   poolPosition: {fileID: 0}
   upMoveAmount: 7
   pathType: 1
   pathMode: 1
+  gameController: {fileID: 0}
 --- !u!54 &970983654
 Rigidbody:
   m_ObjectHideFlags: 0

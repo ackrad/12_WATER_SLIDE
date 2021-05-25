@@ -17,7 +17,7 @@ public class CinemachineSwitcher : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator.Play(slideModAnimation);
     }
 
     // Update is called once per frame

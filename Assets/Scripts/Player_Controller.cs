@@ -37,21 +37,28 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] PathType pathType;
     [SerializeField] PathMode pathMode;
 
+    [Header("Game Manager")]
+    [SerializeField] GameController gameController;
+    [SerializeField] int coinWin = 100;
+    private float coinTimer;
+
     // Start is called before the first frame update
     void Start()
     {
         spFollower = GetComponent<SplineFollower>();
         rb = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
-
+        gameController = FindObjectOfType<GameController>();
+        coinTimer = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-
-
+        if (isPlayerActive)
+        {
+            coinTimer += Time.deltaTime;
+        }
         if (isFollowing  && isPlayerActive)
         {
             
@@ -228,6 +235,8 @@ public class Player_Controller : MonoBehaviour
         transform.position = winPosition.position;
 
         cinemachineSwitcher.SwitchToWinCamera();
+
+        gameController.WinGame(coinWin - (int)coinTimer);
     }
 
 
