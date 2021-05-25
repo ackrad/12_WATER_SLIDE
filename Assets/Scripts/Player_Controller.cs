@@ -8,7 +8,6 @@ using System;
 public class Player_Controller : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5f;
-    [SerializeField] float mouseGap = 20f;
     [SerializeField] float sideMoveSpeed = 5f;
     [SerializeField] float rotationSpeed = 2f;
     [SerializeField] float upForce = 10f;
@@ -20,20 +19,18 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] float maxOfset = 3f;
     [SerializeField] string splineTag = "Spline";
     [SerializeField] Transform winPosition;
-
+    [SerializeField] Lean.Touch.LeanFingerUpdate leanFinger;
     // cached
     SplineFollower spFollower;
     Rigidbody rb;
     CapsuleCollider capsuleCollider;
     
     //booleans
-    bool isMouseActive = false;
     bool isFollowing = true;
     public bool isPlayerActive = true;
-
+    [Range(-1,1)] private float fingerMovement = 0;
 
     [Header("Ending Animation Metrics")]
-    [SerializeField] private Ease moveEase = Ease.Linear;
     [SerializeField] float animMoveDuration=2f ;
     [SerializeField] Transform poolPosition;
     [SerializeField] float upMoveAmount = 7f;
@@ -60,14 +57,13 @@ public class Player_Controller : MonoBehaviour
             
                 SlidingMethod();
             CheckIfOutOfOffset();
-          
+            if (sp.Project(transform.position).percent > 0.99)
+            {
+                WinGame();
+            }
 
         }
 
-        if (sp.Project(transform.position).percent > 0.99 && isPlayerActive && isFollowing)
-        {
-            WinGame();
-        }
 
         else
         {
@@ -83,20 +79,18 @@ public class Player_Controller : MonoBehaviour
     private void FlyingMethod()
     {
 
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
-        Vector3 mousePos = Input.mousePosition;
 
         rb.velocity = new Vector3(0,rb.velocity.y,0) + transform.forward * moveSpeed; // y velocityi koruyup ileri doðru hýz vermek için
 
 
-        if (screenPos.x + mouseGap < mousePos.x)
+        if (fingerMovement >0)
         {
 
             transform.Rotate(0, rotationSpeed* Time.deltaTime , 0, Space.Self);
 
         }
 
-        else if (screenPos.x - mouseGap > mousePos.x)
+        else if (fingerMovement <0)
         {
 
             transform.Rotate(0, -rotationSpeed * Time.deltaTime, 0, Space.Self);
@@ -119,6 +113,7 @@ public class Player_Controller : MonoBehaviour
 
     private IEnumerator StopFollowingSpline()
     {
+        fingerMovement = 0;
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
         
         spFollower.follow = false;
@@ -137,27 +132,17 @@ public class Player_Controller : MonoBehaviour
         capsuleCollider.enabled = true;
     }
 
-    private void ActivateDeactivateMouse()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
 
-            ChangeMouseMode();
-        }
-
-        
-    }
 
     private void SlidingMethod()
     {
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
-        Vector3 mousePos = Input.mousePosition;
+       
 
 
         float offsetX = spFollower.motion.offset.x;
         float newOffsetX;
 
-        if (screenPos.x + mouseGap < mousePos.x)
+        if ( fingerMovement>0)  
         {
             newOffsetX = offsetX + sideMoveSpeed*Time.deltaTime;
             float newOffsetY = maxOfset * Mathf.Cos(newOffsetX / maxOfset);
@@ -166,7 +151,7 @@ public class Player_Controller : MonoBehaviour
 
         }
 
-        else if (screenPos.x - mouseGap > mousePos.x)
+        else if (fingerMovement<0) 
         {
 
             newOffsetX = offsetX - sideMoveSpeed* Time.deltaTime;
@@ -183,23 +168,7 @@ public class Player_Controller : MonoBehaviour
     }
 
 
-    private void ChangeMouseMode()
-    {
 
-        if(isMouseActive)
-        {
-
-            isMouseActive = false;
-        }
-
-        else
-        {
-            isMouseActive = true;
-        }
-
-
-
-    }
 
 
     private void OnCollisionEnter(Collision collision)
@@ -213,6 +182,7 @@ public class Player_Controller : MonoBehaviour
 
     private void StartFollowing()
     {
+        fingerMovement = 0;
         rb.isKinematic = true;
         spFollower.Restart(sp.Project(transform.position).percent); //restarts following from projected point
         spFollower.follow = true;
@@ -224,6 +194,7 @@ public class Player_Controller : MonoBehaviour
 
     public void WinGame()
     {
+        
         ChangeToDiveCamera();
         float depthOfPool = 4f;
 
@@ -258,4 +229,22 @@ public class Player_Controller : MonoBehaviour
 
         cinemachineSwitcher.SwitchToWinCamera();
     }
+
+
+    public void SwipeHappened(Vector2 swipeVector)
+    {
+        if(swipeVector.x > 0) //Swipe Right
+        {
+            fingerMovement += 1;
+
+        }
+
+        else if(swipeVector.x < 0 ) //Swipe Left
+        {
+            fingerMovement -= 1;
+        }
+
+    }
+
+
 }
