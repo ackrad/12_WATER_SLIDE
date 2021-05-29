@@ -49,7 +49,6 @@ public class Player_Controller : MonoBehaviour
     void Start()
     {
 
-        int a11, a12, a13;
 
         spFollower = GetComponent<SplineFollower>();
         rb = GetComponent<Rigidbody>();
