@@ -5,6 +5,9 @@ using Dreamteck.Splines;
 using DG.Tweening;
 using System;
 
+
+
+
 public class Player_Controller : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5f;
@@ -45,16 +48,22 @@ public class Player_Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        int a11, a12, a13;
+
         spFollower = GetComponent<SplineFollower>();
         rb = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         gameController = FindObjectOfType<GameController>();
         coinTimer = 0f;
+        Lean.Touch.LeanTouch.OnFingerDown += LeanTouchTest;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (isPlayerActive)
         {
             coinTimer += Time.deltaTime;
@@ -216,8 +225,9 @@ public class Player_Controller : MonoBehaviour
         path[1] = poolPosition.position;
         path[2] = poolPosition.position + new Vector3(0, depthOfPool, 0);
 
-        transform.DOPath(path, animMoveDuration, pathType, pathMode,10,Color.red).OnComplete(() => { ChangeToWinCamera(); }); ;
-         
+        transform.DOPath(path, animMoveDuration, pathType, pathMode,10,Color.red).OnComplete(() => { ChangeToWinCamera(); });
+
+
 
     }
 
@@ -237,6 +247,7 @@ public class Player_Controller : MonoBehaviour
         cinemachineSwitcher.SwitchToWinCamera();
 
         gameController.WinGame(coinWin - (int)coinTimer);
+
     }
 
 
@@ -255,5 +266,12 @@ public class Player_Controller : MonoBehaviour
 
     }
 
+
+    public void LeanTouchTest(Lean.Touch.LeanFinger finger)
+    {
+
+
+
+    }
 
 }

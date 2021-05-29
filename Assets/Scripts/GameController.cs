@@ -110,7 +110,7 @@ public class GameController : MonoBehaviour
             file.Close();
 
             coinAmount = data.coinAmount;
-            IncreaseCoins(0); // burayý daha düzgün yaz sonra stringi update etmek için kullanýyorsun
+            IncreaseCoins(0); // burayý daha düzgün yaz sonra stringi update etmek için kullanýyorsun // Update Coin diye bi fonksiyon yaz.
         }
 
 

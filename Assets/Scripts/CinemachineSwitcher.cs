@@ -5,19 +5,17 @@ using UnityEngine;
 public class CinemachineSwitcher : MonoBehaviour
 {
 
-    private Animator animator;
-    private string slideModAnimation = "SlideMod";
-    private string winCameraAnimation = "WinCamera";
-    private string diveCameraAnimation = "DiveMod";
+    [SerializeField] Cinemachine.CinemachineVirtualCamera slideCam;
+    [SerializeField] Cinemachine.CinemachineVirtualCamera diveCam;
+    [SerializeField] Cinemachine.CinemachineVirtualCamera winCam;
+
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
     }
     // Start is called before the first frame update
     void Start()
     {
-        animator.Play(slideModAnimation);
     }
 
     // Update is called once per frame
@@ -28,12 +26,12 @@ public class CinemachineSwitcher : MonoBehaviour
 
     public void SwitchToWinCamera()
     {
-        animator.Play(winCameraAnimation);
+        winCam.Priority = diveCam.Priority + 1;
 
     }
     public void SwitchToDiveCamera()
     {
-        animator.Play(diveCameraAnimation);
+        diveCam.Priority = slideCam.Priority + 1;
 
     }
 }
