@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
 
     public static GameController Instance { get { return instance; } }
     public Button loadNextSceneButton;
+    private const string coinSave = "coinAmount";
 
     private int coinAmount;
     [SerializeField] TMPro.TMP_Text text;
@@ -91,14 +92,14 @@ public class GameController : MonoBehaviour
 
     private void Save()
     {
-        PlayerPrefs.SetInt("coinAmount", coinAmount);
+        PlayerPrefs.SetInt(coinSave, coinAmount);
         PlayerPrefs.Save();
 
     }
 
     private void Load()
     {
-        coinAmount = PlayerPrefs.GetInt("coinAmount");
+        coinAmount = PlayerPrefs.GetInt(coinSave);
 
 
     }
