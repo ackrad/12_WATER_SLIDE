@@ -98,7 +98,7 @@ public class Player_Controller : MonoBehaviour
         rb.velocity = new Vector3(0,rb.velocity.y,0) + transform.forward * moveSpeed; // y velocityi koruyup ileri doðru hýz vermek için
 
 
-        if (fingerMovement >0)
+       /* if (fingerMovement >0)
         {
 
             transform.Rotate(0, rotationSpeed* Time.deltaTime , 0, Space.Self);
@@ -111,7 +111,7 @@ public class Player_Controller : MonoBehaviour
             transform.Rotate(0, -rotationSpeed * Time.deltaTime, 0, Space.Self);
 
 
-        }
+        }*/
 
     }
 

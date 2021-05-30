@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -12,6 +11,7 @@ public class GameController : MonoBehaviour
     private static GameController instance;
 
     public static GameController Instance { get { return instance; } }
+    public Button loadNextSceneButton;
 
     private int coinAmount;
     [SerializeField] TMPro.TMP_Text text;
@@ -34,6 +34,7 @@ public class GameController : MonoBehaviour
     }
     void Start()
     {
+        loadNextSceneButton.onClick.AddListener(LoadNextScene);
 
   
 
@@ -49,10 +50,13 @@ public class GameController : MonoBehaviour
 
     public void LoadNextScene()
     {
-        if (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCount)
+        if (SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCountInBuildSettings)
         {
+
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
+
+
     }
 
 
@@ -87,32 +91,14 @@ public class GameController : MonoBehaviour
 
     private void Save()
     {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
-        PlayerCoinData data = new PlayerCoinData
-        {
-            coinAmount = coinAmount
-        };
-
-        bf.Serialize(file, data);
-
-        file.Close();
+        PlayerPrefs.SetInt("coinAmount", coinAmount);
+        PlayerPrefs.Save();
 
     }
 
     private void Load()
     {
-        if(File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath+"/playerInfo.dat", FileMode.Open);
-            PlayerCoinData data = (PlayerCoinData) bf.Deserialize(file);
-            file.Close();
-
-            coinAmount = data.coinAmount;
-            IncreaseCoins(0); // burayý daha düzgün yaz sonra stringi update etmek için kullanýyorsun // Update Coin diye bi fonksiyon yaz.
-        }
-
+        coinAmount = PlayerPrefs.GetInt("coinAmount");
 
 
     }
