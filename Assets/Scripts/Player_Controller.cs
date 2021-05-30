@@ -55,6 +55,8 @@ public class Player_Controller : MonoBehaviour
         Lean.Touch.LeanTouch.OnFingerSwipe -= SwipeHappened;
 
     }
+
+
     // Start is called before the first frame update
     void Start()
     {

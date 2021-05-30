@@ -34,9 +34,11 @@ public class GameController : MonoBehaviour
 
     }
     void Start()
-    {       //TODO Bu buttonu scene index 0 ise koddan yaratýp kullanmayý dene?
-        loadNextSceneButton.onClick.AddListener(LoadNextScene);
-
+    {   
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            loadNextSceneButton.onClick.AddListener(LoadNextScene);
+        }
   
 
     }
