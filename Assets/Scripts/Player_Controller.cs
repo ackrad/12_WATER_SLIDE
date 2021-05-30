@@ -12,7 +12,7 @@ public class Player_Controller : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float sideMoveSpeed = 5f;
-    [SerializeField] float rotationSpeed = 2f;
+    [SerializeField] float rotationSpeed = 60f;
     [SerializeField] float upForce = 10f;
     [SerializeField] float secondsToWait = 0.5f;
     [SerializeField] CinemachineSwitcher cinemachineSwitcher;
@@ -22,7 +22,6 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] float maxOfset = 3f;
     [SerializeField] string splineTag = "Spline";
     [SerializeField] Transform winPosition;
-    [SerializeField] Lean.Touch.LeanFingerUpdate leanFinger;
     // cached
     SplineFollower spFollower;
     Rigidbody rb;
@@ -45,6 +44,17 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] int coinWin = 100;
     private float coinTimer;
 
+
+    private void OnEnable()
+    {
+        Lean.Touch.LeanTouch.OnFingerSwipe += SwipeHappened;
+    }
+
+    private void OnDisable()
+    {
+        Lean.Touch.LeanTouch.OnFingerSwipe -= SwipeHappened;
+
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -55,13 +65,15 @@ public class Player_Controller : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         gameController = FindObjectOfType<GameController>();
         coinTimer = 0f;
-        Lean.Touch.LeanTouch.OnFingerDown += LeanTouchTest;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        var fingers = Lean.Touch.LeanTouch.Fingers;
+
 
         if (isPlayerActive)
         {
@@ -98,20 +110,21 @@ public class Player_Controller : MonoBehaviour
         rb.velocity = new Vector3(0,rb.velocity.y,0) + transform.forward * moveSpeed; // y velocityi koruyup ileri doðru hýz vermek için
 
 
-       /* if (fingerMovement >0)
+        if (fingerMovement > 0)
         {
-
-            transform.Rotate(0, rotationSpeed* Time.deltaTime , 0, Space.Self);
+            Vector3 test = new Vector3(0, rotationSpeed, 0);
+            Quaternion deltaRotation = Quaternion.Euler(test * Time.deltaTime);
+            rb.MoveRotation(rb.rotation * deltaRotation);
 
         }
 
-        else if (fingerMovement <0)
+        else if (fingerMovement < 0)
         {
+            Vector3 test = new Vector3(0, -rotationSpeed, 0);
+            Quaternion deltaRotation = Quaternion.Euler(test * Time.deltaTime);
+            rb.MoveRotation(rb.rotation * deltaRotation);
 
-            transform.Rotate(0, -rotationSpeed * Time.deltaTime, 0, Space.Self);
-
-
-        }*/
+        }
 
     }
 
@@ -250,15 +263,17 @@ public class Player_Controller : MonoBehaviour
     }
 
 
-    public void SwipeHappened(Vector2 swipeVector)
+    private void SwipeHappened(Lean.Touch.LeanFinger finger)
     {
-        if(swipeVector.x > 0) //Swipe Right
+
+        
+        if(finger.SwipeScaledDelta.x > 0) //Swipe Right
         {
             fingerMovement += 1;
 
         }
 
-        else if(swipeVector.x < 0 ) //Swipe Left
+        else if(finger.SwipeScaledDelta.x < 0 ) //Swipe Left
         {
             fingerMovement -= 1;
         }
@@ -266,11 +281,10 @@ public class Player_Controller : MonoBehaviour
     }
 
 
-    public void LeanTouchTest(Lean.Touch.LeanFinger finger)
-    {
+   
 
 
 
-    }
+    
 
 }

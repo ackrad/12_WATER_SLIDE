@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour
 
     }
     void Start()
-    {
+    {       //TODO Bu buttonu scene index 0 ise koddan yaratýp kullanmayý dene?
         loadNextSceneButton.onClick.AddListener(LoadNextScene);
 
   
